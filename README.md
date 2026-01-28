@@ -1,69 +1,62 @@
 # Incremental CDC Pipeline for Banking Transactions
 
-## Business Problem
-Banking systems generate frequent transaction updates. Full data reloads are costly
-and inefficient. This project implements an incremental CDC pipeline using SCD Type 2
-to maintain historical audit trails.
+## Project Overview
 
-## Architecture
-Source → CDC Detection → Delta MERGE → Curated History Table
+This project demonstrates a production-style incremental Change Data Capture (CDC) pipeline for banking transaction data. It uses SCD Type 2 to maintain a full historical audit trail while avoiding expensive full reloads. The pipeline is designed to support regulatory compliance, analytics, and reporting use cases.
 
-## Technologies Used
-- PySpark
-- Delta Lake
-- Spark SQL
-- Databricks Community Edition
+## 🏦 Business Problem
+
+Banking systems generate thousands of transaction updates daily. Performing full data reloads is inefficient, costly, and not audit-friendly.
+This solution captures only new and changed records, preserves historical versions, and enables time-travel analysis.
+
+## 🧱 Architecture
+Source Files → CDC Detection → Delta MERGE (SCD Type 2)
+             → Data Quality Checks
+             → Audit Logging
+             → Curated History Tables
+
+## Tech Stack
+
+- Python / PySpark – ETL and transformations
+
+- Delta Lake – SCD Type 2 storage, MERGE, time travel
+
+- Spark SQL – CDC logic and merge queries
+
+- Databricks Community Edition – Pipeline execution
+
+- GitHub Actions – CI/CD simulation (pipeline validation)
 
 ## Key Features
+
 - Incremental CDC processing
-- SCD Type 2 implementation
-- Delta MERGE INTO
-- Time travel and rollback
-- Audit-ready historical tracking
 
-## Results
-- Reduced processing cost and time
-- Enabled audit and compliance analysis
-- Improved data reliability
+- SCD Type 2 historical tracking
 
+- Delta MERGE INTO operations
 
+- Data quality validations (nulls, duplicates, business rules)
 
+- Audit logging for compliance and traceability
 
+- Time travel and rollback using Delta Lake
 
-** Incremental CDC Pipeline for Banking Transactions **
-- Business Use Case
+## 📊 Results & Outcomes
 
-Banks generate thousands of transaction updates daily. Performing full reloads is costly and inefficient.
-This project implements an incremental CDC (Change Data Capture) pipeline with SCD Type 2, audit logging, and performance optimization, simulating a production-grade banking data engineering workflow.
+- Reduced processing time and compute cost
 
-- Tech Stack
+- Enabled full audit and compliance reporting
 
-Python & PySpark – ETL and transformations
+- Improved data reliability and historical traceability
 
-Delta Lake – Historical SCD Type 2 storage, time-travel
+- Analytics-ready curated tables for BI tools
 
-Databricks Community Edition – Notebook execution & simulation of ADF pipelines
+## How to Run
 
-SQL – Merge queries & table operations
+- Upload source CSV files to Databricks File System (DBFS)
 
-GitHub Actions – CI/CD simulation for pipeline validation
+- Open the Databricks notebook
 
-Documentation – Data lineage and audit tracking
+- Run cells sequentially to simulate daily CDC loads
 
-- Architecture
-
-Pipeline Steps:
-
-Source CSV Files – Daily transaction CSVs (data/transactions_day1.csv, transactions_day2.csv)
-
-CDC(Change Data Capture) Detection – Detect new and updated transactions
-
-SCD Type 2 Merge – Update historical records using Delta MERGE
-
-Data Quality Checks – Null, duplicate, and business rule validations
-
-Audit Logging – Save audit metrics to transactions_audit_log table
-
-Performance Optimization – Partitioning by transaction_date and ZORDER for fast analytics
-
-Consumption – Curated tables ready for reporting or BI tools
+- Query Delta tables to view historical changes
